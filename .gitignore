@@ -1,0 +1,44 @@
+# === PYTHON ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+.eggs/
+venv/
+.venv/
+ENV/
+build/
+dist/
+*.log
+instance/
+
+# === ENV FILES ===
+.env
+.env.*
+
+# === SQLite DB ===
+*.sqlite3
+*.db
+
+# === VUE ===
+node_modules/
+dist/
+build/
+
+# === VITE / VUE BUILD ===
+.vite/
+*.local
+
+# === SYSTEM FILES ===
+.DS_Store
+Thumbs.db
+
+# === IDE FILES ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
