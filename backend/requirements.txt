@@ -2,4 +2,4 @@ flask
 flask-cors
 python-dotenv
 authlib
-sqlite3
+requests

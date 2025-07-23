@@ -49,24 +49,44 @@ def register_user():
 def login():
     return auth0.authorize_redirect(redirect_uri=os.getenv('AUTH0_REDIRECT_URI'))
 
+@app.route('/signup')
+def signup():
+    return auth0.authorize_redirect(
+        redirect_uri=os.getenv('AUTH0_REDIRECT_URI'),
+        screen_hint='signup'
+    )
+
 @app.route('/callback')
 def callback():
     token = auth0.authorize_access_token()
-    userinfo = auth0.userinfo() 
+    userinfo = auth0.userinfo()
 
     print(f'User Token: {token}')
     print("User Info:")
     print(userinfo)
 
     session['user'] = userinfo
-    return redirect('http://localhost:5173')  # Redirect to frontend
+
+    # Save user info to DB
+    conn = get_db()
+    sub = userinfo['sub']
+    name = userinfo.get('name', '')
+    email = userinfo.get('email', '')
+    try:
+        conn.execute("INSERT OR IGNORE INTO user (username, email) VALUES (?, ?)", (name, email))
+        conn.commit()
+    finally:
+        conn.close()
+
+    return redirect('http://localhost:5173')
 
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(
         f"https://{os.getenv('AUTH0_DOMAIN')}/v2/logout?"
-        f"returnTo=http://localhost:5173"
+        f"returnTo=http://localhost:5173&"
+        f"client_id={os.getenv('AUTH0_CLIENT_ID')}"
     )
 
 @app.route('/user')
@@ -74,6 +94,10 @@ def user():
     if 'user' in session:
         return jsonify(session['user'])
     return jsonify(None), 401
+
+@app.route('/authenticated')
+def authenticated():
+    return jsonify({"authenticated": 'user' in session})
 
 if __name__ == '__main__':
     app.run(debug=True)

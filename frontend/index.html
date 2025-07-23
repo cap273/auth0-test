@@ -4,27 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Auth0 + Flask + Vanilla JS</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="src/style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to the App</h1>
+    <h1 id="greeting">Welcome to the App</h1>
 
     <div id="auth-buttons">
       <button id="login-btn">Login</button>
-      <button id="logout-btn">Logout</button>
+      <button id="signup-btn">Sign Up</button>
+      <button id="logout-btn" style="display:none;">Logout</button>
     </div>
 
     <div id="user-info"></div>
-
-    <hr/>
-
-    <h3>Register Local Account</h3>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="email" id="email" placeholder="Email" />
-    <button id="register-btn">Register</button>
   </div>
 
-  <script src="main.js"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>
